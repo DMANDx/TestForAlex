@@ -1,0 +1,131 @@
+﻿@page
+@using Avto1Test.Ext;
+@model Avto1Test.Pages.IndexModel
+
+@*@Html.AntiForgeryToken()*@
+@{
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Список URL</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Url[0].MainURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url[0].TinyURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url[0].DateCreate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url[0].NumOfCall)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+@foreach (var item in Model.Url)
+{
+        <tr>
+            <td>
+                    <a href="@item.MainURL">@item.MainURL</a>
+            </td>
+            <td>
+                    @*<a id="target" href="@item.MainURL"><asp action="./GetUri(@item.TinyURL)"></asp></a>*@
+                    @*<a id="target" name="@item.Id" href="@item.MainURL">@item.TinyURL </a>*@
+                    @*<a id="target" href="@item.MainURL">@item.TinyURL </a>*@
+                    <a name="@item.Id" id="target" href="@item.MainURL">@item.TinyURL </a>                    
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumOfCall)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Редактировать</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+
+    $(document).ready(function () {
+    var links = document.querySelectorAll('#target');
+    for (var i = 0; i < links.length; i++) {
+        links[i].onclick = function () {
+            event.preventDefault();            
+            var urll = $(this).attr('href');
+            window.location.href = urll;
+            var idL = $(this).attr('name');
+
+                var myHeaders = new Headers();
+                myHeaders.append('Content-Type', 'application/json');
+                myHeaders.append('Access-Control-Allow-Origin', '*');
+
+            $.ajax({
+                async: true,
+                headers: myHeaders,
+                type: 'POST',
+                //url: './Increm',
+                url: './Index?handler=Increm',
+                //url: './?handler=Increm',
+                //url: @Url.Page("Index","Increm"),
+                //url: "/Increm",
+                data: { id: idL},                
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },                    
+                    success: function (response) {
+                        window.location = urll;
+                        alert('success' + response);
+                    }                        
+            })                
+                .done(function (response, textStatus, jqXHR) {
+                    window.location = urLL;
+                    alert('DONE' + response);
+                    Cons.Log(response);
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 0) {
+                        alert('Not connect. Verify Network.');
+                    } else if (jqXHR.status == 404) {
+                        alert('Requested page not found (404).');
+                    } else if (jqXHR.status == 500) {
+                        alert('Internal Server Error (500).');
+                    } else if (exception === 'parsererror') {
+                        alert('Requested JSON parse failed.');
+                    } else if (exception === 'timeout') {
+                        alert('Time out error.');
+                    } else if (exception === 'abort') {
+                        alert('Ajax request aborted.');
+                    } else {
+                        alert('Uncaught Error. ' + jqXHR.responseText);
+                    }
+                })
+        }
+    }
+    })
+</script>

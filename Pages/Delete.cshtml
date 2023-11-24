@@ -1,0 +1,47 @@
+﻿@page
+@model Avto1Test.Pages.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Url</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Url.MainURL)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Url.MainURL)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Url.TinyURL)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Url.TinyURL)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Url.DateCreate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Url.DateCreate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Url.NumOfCall)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Url.NumOfCall)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Url.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Не удалять</a>
+    </form>
+</div>
