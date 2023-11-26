@@ -24,7 +24,7 @@ namespace Avto1Test.Pages
         }
 
         [BindProperty]
-        public Url Url { get; set; } = default!;
+        public new Url Url { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -37,7 +37,7 @@ namespace Avto1Test.Pages
             
             if (url == null)
             {
-                logger.LogCritical("OnGetAsync: url == null");
+                logger.LogCritical("Class<EditModel>OnGetAsync: url == null");
                 return NotFound();
             }
 
