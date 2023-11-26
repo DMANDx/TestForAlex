@@ -9,6 +9,7 @@ namespace Avto1Test.Models
         [Required]
         [Url(ErrorMessage = "Некорректный URL")]        
         [Display(Name = "URL")]
+        [StringLength(255, ErrorMessage = "Прквышена длина")]
         public string? MainURL { get; set; }
 
         [StringLength(255, MinimumLength = 9, ErrorMessage = "Минимум 9 символов")]
