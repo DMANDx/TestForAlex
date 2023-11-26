@@ -28,10 +28,15 @@ namespace Avto1Test.Pages
 
         [BindProperty]
         public new Url Url { get; set; } = default!;
-        
+
+        public Url GetUrl()
+        {
+            return Url;
+        }
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(Url url)
         {
 
             Url.TinyURL = "";
@@ -42,7 +47,8 @@ namespace Avto1Test.Pages
                 return Page();
             }
 
-            Url.TinyURL = ToTiny(Url.MainURL);
+#pragma warning disable CS8604 // Possible null reference argument.
+            Url.TinyURL = ToTiny();
             Url.NumOfCall = 0;
             Url.DateCreate = DateTime.Now;
 
@@ -58,7 +64,7 @@ namespace Avto1Test.Pages
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        private static string ToTiny(string url)
+        private static string ToTiny()
         {
             string ur = "av1" + "/" + GenerateRandomString();
             return ur;
@@ -70,7 +76,7 @@ namespace Avto1Test.Pages
         /// <returns></returns>
         public static string GenerateRandomString()
         {
-            Random r = new Random();
+            Random r = new();
             int rand = r.Next(0, 2);
 
             int length = 6;
