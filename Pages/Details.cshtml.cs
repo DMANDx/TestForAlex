@@ -18,7 +18,7 @@ namespace Avto1Test.Pages
             _context = context;
         }
 
-      public Url Url { get; set; } = default!; 
+      public new Url Url { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
