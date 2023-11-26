@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Avto1Test.Models;
 using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
+using Microsoft.Extensions.Logging;
+using Avto1Test.Utils;
 
 namespace Avto1Test.Pages
 {
     public class EditModel : PageModel
     {
         private readonly Avto1Test.Models.ApplicationContext _context;
+        readonly ILogger logger = Log.loggerFactory.CreateLogger<EditModel>();
 
         public EditModel(Avto1Test.Models.ApplicationContext context)
         {
@@ -26,15 +29,18 @@ namespace Avto1Test.Pages
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Urls == null)
-            {
+            {                
                 return NotFound();
             }
 
             var url =  await _context.Urls.FirstOrDefaultAsync(m => m.Id == id);
+            
             if (url == null)
             {
+                logger.LogCritical("OnGetAsync: url == null");
                 return NotFound();
             }
+
             Url = url;
             return Page();
         }
@@ -53,9 +59,10 @@ namespace Avto1Test.Pages
 
             try
             {
+                
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!UrlExists(Url.Id))
                 {
@@ -63,6 +70,7 @@ namespace Avto1Test.Pages
                 }
                 else
                 {
+                    logger.LogCritical($"OnPostAsync: {ex.Message}");
                     throw;
                 }
             }
