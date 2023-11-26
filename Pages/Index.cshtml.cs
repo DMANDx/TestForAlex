@@ -81,7 +81,7 @@ namespace Avto1Test.Pages
             }
             else
             {
-                logger.LogCritical("OnPostIncrem :ERROR ur = null");
+                logger.LogCritical("Class<Delete>:OnPostIncrem: ERROR:ur = null");                
             }
 
             //return RedirectToPage("");
