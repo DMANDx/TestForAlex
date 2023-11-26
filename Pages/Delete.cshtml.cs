@@ -6,12 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Avto1Test.Models;
+using Avto1Test.Utils;
 
 namespace Avto1Test.Pages
 {
     public class DeleteModel : PageModel
     {
         private readonly Avto1Test.Models.ApplicationContext _context;
+
+        readonly ILogger logger = Log.loggerFactory.CreateLogger<DeleteModel>();
 
         public DeleteModel(Avto1Test.Models.ApplicationContext context)
         {
@@ -32,6 +35,7 @@ namespace Avto1Test.Pages
 
             if (url == null)
             {
+                logger.LogCritical("Class<Delete>:OnGetAsync: url == null");
                 return NotFound();
             }
             else 
@@ -53,7 +57,17 @@ namespace Avto1Test.Pages
             {
                 Url = url;
                 _context.Urls.Remove(Url);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException ex) 
+                {
+                    logger.LogCritical($"Class<Delete>:OnPostAsync: ERROR:{ex.Message}");
+                }
+                
+
+                
             }
 
             return RedirectToPage("./Index");
