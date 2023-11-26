@@ -9,6 +9,7 @@ using Avto1Test.Models;
 using System.Security.Policy;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Logging;
+using Avto1Test.Utils;
 
 namespace Avto1Test.Pages
 {
@@ -17,8 +18,7 @@ namespace Avto1Test.Pages
     {
         private readonly Avto1Test.Models.ApplicationContext _context;
 
-        static ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-        ILogger logger = loggerFactory.CreateLogger<IndexModel>();
+        readonly ILogger logger = Log.loggerFactory.CreateLogger<IndexModel>();
 
 
         public IndexModel(Avto1Test.Models.ApplicationContext context)
@@ -39,7 +39,7 @@ namespace Avto1Test.Pages
             }
             catch (Exception ex) 
             {
-                logger.LogWarning($"Getting all:ERROR {ex}");
+                logger.LogCritical($"Getting all:ERROR {ex}");
             }
 
             logger.LogInformation("Getting all:OK");
