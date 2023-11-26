@@ -10,3 +10,6 @@ obj/Debug/net6.0/Avto1Test.dll
 .vs/Avto1Test/v17/.suo
 .vs/Avto1Test/DesignTimeBuild/.dtbcache.v2
 .vs/Avto1Test/FileContentIndex/read.lock
+obj/Debug/net6.0/Avto1Test.RazorAssemblyInfo.cache
+obj/Debug/net6.0/Avto1Test.MvcApplicationPartsAssemblyInfo.cache
+obj/Debug/net6.0/Avto1Test.genruntimeconfig.cache
