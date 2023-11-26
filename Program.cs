@@ -17,7 +17,6 @@ builder.Services.AddMvc().AddRazorPagesOptions(options => {
     options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
 });
 
-
 var app = builder.Build();
 
 
