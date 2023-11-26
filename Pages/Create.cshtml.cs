@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Avto1Test.Models;
 using static Org.BouncyCastle.Asn1.Cmp.Challenge;
+using Avto1Test.Utils;
 
 namespace Avto1Test.Pages
 {
     public class CreateModel : PageModel
     {
         private readonly Avto1Test.Models.ApplicationContext _context;
+        readonly ILogger logger = Log.loggerFactory.CreateLogger<CreateModel>();
 
         public CreateModel(Avto1Test.Models.ApplicationContext context)
         {
@@ -25,7 +27,7 @@ namespace Avto1Test.Pages
         }
 
         [BindProperty]
-        public Url Url { get; set; } = default!;
+        public new Url Url { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -36,6 +38,7 @@ namespace Avto1Test.Pages
 
             if (!ModelState.IsValid || _context.Urls == null || Url == null)
             {
+                logger.LogCritical("Class<CreateModel>OnPostAsync: ModelState.IsValid || _context.Urls == null || Url == null");
                 return Page();
             }
 
@@ -49,12 +52,22 @@ namespace Avto1Test.Pages
             return RedirectToPage("./Index");
         }
 
+        
+        /// <summary>
+        /// Formatting Tiny URL
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         private static string ToTiny(string url)
         {
             string ur = "av1" + "/" + GenerateRandomString();
             return ur;
         }
-        
+
+        /// <summary>
+        /// Generation Random for URL/[]
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateRandomString()
         {
             Random r = new Random();
