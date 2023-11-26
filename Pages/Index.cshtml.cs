@@ -83,9 +83,11 @@ namespace Avto1Test.Pages
             {
                 logger.LogCritical("OnPostIncrem :ERROR ur = null");
             }
-                                            
+
             //return RedirectToPage("");
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             return Redirect(ur.MainURL);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
         /// <summary>
