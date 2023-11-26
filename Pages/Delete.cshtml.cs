@@ -65,9 +65,6 @@ namespace Avto1Test.Pages
                 {
                     logger.LogCritical($"Class<Delete>:OnPostAsync: ERROR:{ex.Message}");
                 }
-                
-
-                
             }
 
             return RedirectToPage("./Index");
