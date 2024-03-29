@@ -6,7 +6,8 @@ namespace Avto1Test.Models
     public class ApplicationContext : DbContext
     {
         public DbSet<Url> Urls { get; set; } = null!;
-        
+        public DbSet<Visit> Visits { get; set; } = null!;
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
