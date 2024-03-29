@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Avto1Test.Utils;
+using System.ComponentModel.DataAnnotations;
 
 namespace Avto1Test.Models
-{
+{    
     public class Url
     {
         public int Id { get; set; }
