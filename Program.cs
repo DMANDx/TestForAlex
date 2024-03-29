@@ -1,6 +1,8 @@
 using Avto1Test.Models;
+using Avto1Test.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,24 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySQL(connection));
-builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
-builder.Services.AddMvc().AddRazorPagesOptions(options => {
-    //Отключение защиты от CSFR
-    options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
-});
+//builder.Services.AddScoped<LogXActionFilter>();
 
 var app = builder.Build();
 
+app.UseMiddleware<CustomMiddleware>();
 
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+    var service = scope.ServiceProvider.GetService<CustomMiddleware>();
+
     context.Database.Migrate();
 }
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
