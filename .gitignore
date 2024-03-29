@@ -14,3 +14,7 @@ obj/Debug/net6.0/Avto1Test.RazorAssemblyInfo.cache
 obj/Debug/net6.0/Avto1Test.MvcApplicationPartsAssemblyInfo.cache
 obj/Debug/net6.0/Avto1Test.genruntimeconfig.cache
 obj/Debug/net6.0/Avto1Test.csproj.FileListAbsolute.txt
+/obj/Debug/net6.0
+/bin
+/.vs
+/bin
