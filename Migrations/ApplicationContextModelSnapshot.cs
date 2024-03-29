@@ -30,12 +30,14 @@ namespace Avto1Test.Migrations
 
                     b.Property<string>("MainURL")
                         .IsRequired()
+                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.Property<int>("NumOfCall")
                         .HasColumnType("int");
 
                     b.Property<string>("TinyURL")
+                        .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
@@ -44,6 +46,26 @@ namespace Avto1Test.Migrations
                         .IsUnique();
 
                     b.ToTable("Urls");
+                });
+
+            modelBuilder.Entity("Avto1Test.Models.Visit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("RemoteAddr")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("VisitDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Visits");
                 });
 #pragma warning restore 612, 618
         }
